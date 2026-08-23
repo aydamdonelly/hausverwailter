@@ -53,8 +53,9 @@ deshalb um dauerhaften Speicher.
 
 ## Kosten
 
-Ein Beleg kostet mit Claude Sonnet 5 etwa 5 bis 8 Cent (zwei KI-Aufrufe: Typ erkennen, Daten
-lesen; rund 11.000 Eingabe- und 2.000 Ausgabe-Tokens). Ein Angebotstext liegt darunter.
+Ein Beleg kostet mit Claude Sonnet 5 etwa 3 bis 5 Cent (zwei KI-Aufrufe: Typ erkennen, Daten
+lesen; rund 11.000 Eingabe- und 2.000 Ausgabe-Tokens bei 2 $/10 $ je Million Tokens). Ein
+Angebotstext liegt darunter.
 Kontoauszüge kosten nur dann etwas, wenn das Format unbekannt ist oder Umsätze offen bleiben.
 
 ## Auf Vercel betreiben

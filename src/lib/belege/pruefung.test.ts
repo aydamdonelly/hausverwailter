@@ -80,6 +80,13 @@ describe("pruefeBeleg", () => {
     const codes = f.map((x) => x.code);
     expect(codes).toEqual(expect.arrayContaining(["OBJEKT_FEHLT", "FREIGABE", "VERSICHERUNGSFALL", "WARTUNG_ODER_REPARATUR"]));
   });
+  it("prüft den Versicherungsteuerbetrag gegen die effektiven Sätze", () => {
+    const ok = pruefeBeleg(beleg({ kostenartCode: "VERSICHERUNG", versicherungsteuer: true, positionen: [{ beschreibung: "Wohngebäudeversicherung", netto: 1667.53, ustSatz: 0 }], steuersaetze: [{ satz: 19, netto: 1667.53, ust: 272.47 }], nettoGesamt: 1667.53, ustGesamt: 272.47, bruttoGesamt: 1940 }), kontext);
+    expect(ok.map((x) => x.code)).not.toContain("VERSICHERUNGSTEUER_SATZ");
+    expect(ok.map((x) => x.code)).not.toContain("UST_SATZ");
+    const falsch = pruefeBeleg(beleg({ kostenartCode: "VERSICHERUNG", versicherungsteuer: true, positionen: [{ beschreibung: "Wohngebäudeversicherung", netto: 1630.25, ustSatz: 0 }], steuersaetze: [{ satz: 19, netto: 1630.25, ust: 200 }], nettoGesamt: 1630.25, ustGesamt: 200, bruttoGesamt: 1830.25 }), kontext);
+    expect(falsch.map((x) => x.code)).toContain("VERSICHERUNGSTEUER_SATZ");
+  });
   it("erkennt Versicherungsteuer und Kleinunternehmer als Hinweis, fehlende USt ohne Grund als Warnung", () => {
     const vers = pruefeBeleg(beleg({ kostenartCode: "VERSICHERUNG", versicherungsteuer: true, steuersaetze: [], positionen: [{ beschreibung: "Gebäudeversicherung", netto: 1940, ustSatz: 0 }], nettoGesamt: 1940, ustGesamt: 0, bruttoGesamt: 1940 }), kontext);
     expect(vers.map((x) => x.code)).toContain("VERSICHERUNGSTEUER");

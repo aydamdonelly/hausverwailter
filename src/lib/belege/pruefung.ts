@@ -70,6 +70,7 @@ export function pruefeBeleg(b: Beleg, k: PruefKontext): Befund[] {
   }
   if (b.steuersaetze.length > 0) {
     for (const z of b.steuersaetze) {
+      if (b.versicherungsteuer) break; // Versicherungsteuer wird unten gegen die effektiven Sätze geprüft
       const erwartet = ustAusNetto(z.netto, z.satz);
       if (!gleich(erwartet, z.ust, 0.02)) {
         f.push({ stufe: "fehler", code: "UST_SATZ", text: `${z.satz} % von ${fmt(z.netto)} sind ${fmt(erwartet)}, ausgewiesen sind ${fmt(z.ust)}.`, feld: "steuersaetze" });
@@ -108,7 +109,20 @@ export function pruefeBeleg(b: Beleg, k: PruefKontext): Befund[] {
     f.push({ stufe: "hinweis", code: "VERSICHERUNGSTEUER", text: "Versicherungsteuer statt Umsatzsteuer: kein Vorsteuerabzug, Betrag brutto buchen.", feld: "" });
   }
   if (b.reverseCharge) {
-    f.push({ stufe: "warnung", code: "REVERSE_CHARGE", text: "Hinweis auf § 13b UStG (Steuerschuldnerschaft des Leistungsempfängers). Mit dem Steuerberater klären, ob der Empfänger die Steuer schuldet.", feld: "" });
+    f.push({ stufe: "warnung", code: "REVERSE_CHARGE", text: "Rechnung ohne Umsatzsteuer mit Hinweis auf § 13b UStG. Hausverwaltungen, Vermieter und WEG sind in der Regel nicht Steuerschuldner (UStAE 13b.3), die Rechnung wäre dann fehlerhaft: Rechnung mit Umsatzsteuer anfordern, außer der eigene Betrieb erbringt selbst nachhaltig Bauleistungen oder Gebäudereinigung.", feld: "" });
+  }
+  if (b.versicherungsteuer && b.nettoGesamt > 0) {
+    // Effektive Sätze nach § 5 Abs. 1 Nr. 3, § 6 VersStG: Feuer 60 % × 22 % = 13,20 %, Wohngebäude 86 % × 19 % = 16,34 %,
+    // Hausrat 85 % × 19 % = 16,15 %, übrige Sachversicherungen 19 %, Unfall mit Prämienrückgewähr 3,8 %.
+    const saetze = [13.2, 16.34, 16.15, 19, 3.8];
+    const zeilen = b.steuersaetze.length ? b.steuersaetze : [{ satz: 0, netto: b.nettoGesamt, ust: b.ustGesamt }];
+    for (const z of zeilen) {
+      if (z.ust === 0) continue;
+      const passt = saetze.some((satz) => gleich(ausCentSicher(z.netto * satz), z.ust, 0.02));
+      if (!passt) {
+        f.push({ stufe: "warnung", code: "VERSICHERUNGSTEUER_SATZ", text: `Versicherungsteuer ${fmt(z.ust)} auf ${fmt(z.netto)} entspricht keiner Sparte (13,20 % Feuer, 16,34 % Wohngebäude, 16,15 % Hausrat, 19 % übrige). Beitragsrechnung prüfen.`, feld: "steuersaetze" });
+      }
+    }
   }
   if (b.kostenartCode === "VERSICHERUNG" && b.ustGesamt > 0 && !b.versicherungsteuer) {
     f.push({ stufe: "warnung", code: "VERSICHERUNG_UST", text: "Versicherungsbeiträge tragen Versicherungsteuer, keine Umsatzsteuer. Bitte den Beleg prüfen.", feld: "" });
@@ -204,6 +218,11 @@ function dedupe(f: Befund[]): Befund[] {
     gesehen.add(k);
     return true;
   });
+}
+
+/** Prozentbetrag auf Cent gerundet (n ist bereits Euro × Prozent). */
+function ausCentSicher(euroMalProzent: number): number {
+  return Math.round(euroMalProzent) / 100;
 }
 
 function fmt(n: number): string {

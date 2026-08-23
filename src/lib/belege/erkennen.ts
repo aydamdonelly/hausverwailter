@@ -141,6 +141,7 @@ export async function erkenneDokument(input: {
     schema: KiKlassifikation,
     maxTokens: 600,
     anhaengeCachen: true,
+    aufwand: "low",
   });
   const k = klass.daten;
   let eingabeTokens = klass.eingabeTokens;
@@ -158,6 +159,7 @@ export async function erkenneDokument(input: {
       schema: KiBeleg,
       maxTokens: 8000,
       anhaengeCachen: true,
+      aufwand: "medium",
     });
     eingabeTokens += e.eingabeTokens;
     ausgabeTokens += e.ausgabeTokens;

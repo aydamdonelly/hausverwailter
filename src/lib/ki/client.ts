@@ -35,6 +35,8 @@ export interface KiAufruf<T extends z.ZodTypeAny> {
   maxTokens?: number;
   /** Anhänge im Prompt-Cache halten, wenn dasselbe Dokument gleich noch einmal gelesen wird (Klassifikation → Extraktion). */
   anhaengeCachen?: boolean;
+  /** Denk-Aufwand des Modells: "low" für Klassifikation, "medium" für Extraktion reicht; Standard ist "high". */
+  aufwand?: "low" | "medium" | "high";
 }
 
 export interface KiErgebnis<T> {
@@ -82,7 +84,7 @@ export async function strukturiert<T extends z.ZodTypeAny>(aufruf: KiAufruf<T>):
       max_tokens: aufruf.maxTokens ?? 8000,
       system: [{ type: "text", text: aufruf.system, cache_control: { type: "ephemeral" } }],
       messages: [{ role: "user", content }],
-      output_config: { format: zodOutputFormat(aufruf.schema) },
+      output_config: { format: zodOutputFormat(aufruf.schema), ...(aufruf.aufwand ? { effort: aufruf.aufwand } : {}) },
     });
     if (antwort.stop_reason === "refusal") {
       throw new KiFehler("Die KI hat die Verarbeitung dieses Dokuments abgelehnt.");

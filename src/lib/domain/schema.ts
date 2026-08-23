@@ -276,6 +276,8 @@ export const Beleg = z.object({
   erkanntAm: Zeitstempel.nullable().default(null),
   modell: z.string().default(""),
   notizenKi: z.string().default(""),
+  /** Vermerke wie auf dem Kontierungsstempel: sachlich richtig (Leistung erbracht, Angaben stimmen) */
+  sachlichRichtigAm: Datum.nullable().default(null),
   /** Zahlung */
   bezahltAm: Datum.nullable().default(null),
   bankumsatzId: z.string().nullable().default(null),
@@ -583,9 +585,17 @@ export const Einstellungen = z.object({
   }).prefault({}),
   mahnwesen: z.object({
     fristTage: z.number().int().default(10),
-    gebuehrStufe2: Geld.default(5),
-    gebuehrStufe3: Geld.default(10),
+    /**
+     * Mahngebühren: Standard 0 €. Pauschalen sind gegenüber Verbrauchern unwirksam
+     * (BGH VIII ZR 95/18), ersatzfähig sind nur nachgewiesene Kosten; in der WEG darf der
+     * Verwalter vom säumigen Eigentümer gar keine Mahngebühr verlangen. Wer vertraglich
+     * etwas vereinbart hat, trägt es hier ein.
+     */
+    gebuehrStufe2: Geld.default(0),
+    gebuehrStufe3: Geld.default(0),
     toleranzEuro: Geld.default(1),
+    /** Basiszinssatz nach § 247 BGB in Prozent (1,52 % seit 01.07.2026); Verzugszins = Basiszins + 5 (Verbraucher) bzw. + 9 Punkte (Unternehmer, § 288 BGB). */
+    basiszinsProzent: z.number().default(1.52),
   }).prefault({}),
   beispielGeladen: z.boolean().default(false),
   onboardingErledigt: z.boolean().default(false),

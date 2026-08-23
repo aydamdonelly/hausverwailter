@@ -2,9 +2,10 @@ import { erkenneDokument } from "@/lib/belege/erkennen";
 import type { ErkennungsKontext } from "@/lib/belege/prompts";
 import { KiFehler } from "@/lib/ki/client";
 import { verweigert, zugangOk } from "@/lib/zugang";
+import { bremse } from "@/lib/bremse";
 
 export const runtime = "nodejs";
-export const maxDuration = 60;
+export const maxDuration = 120;
 
 const MAX_BYTES = 25 * 1024 * 1024;
 
@@ -14,6 +15,8 @@ const MAX_BYTES = 25 * 1024 * 1024;
  */
 export async function POST(req: Request) {
   if (!zugangOk(req)) return verweigert();
+  const gebremst = bremse(req, "erkennen", 40);
+  if (gebremst) return gebremst;
   let form: FormData;
   try {
     form = await req.formData();
