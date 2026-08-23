@@ -233,8 +233,24 @@ export function BelegAnsicht({ dokumentId }: { dokumentId: string }) {
                   <span className="zahl">{konto || "–"}</span>
                   {objekt ? <span className="ml-3 text-tinte-3">Kostenstelle {objekt.kurzname}</span> : null}
                 </KontierungsZelle>
-                <KontierungsZelle label="Rechnerisch">
-                  {befunde.some((b) => b.code.startsWith("SUMME") || b.code.startsWith("UST_")) ? <span className="text-stempel-2">Abweichung, siehe Befund</span> : "geprüft, stimmt"}
+                <KontierungsZelle label="Eingegangen">
+                  {datum(dokument.hochgeladenAm)}
+                  <span className="ml-2 text-tinte-3">{dokument.quelle === "email" ? "per E-Mail" : dokument.quelle === "beispiel" ? "Beispiel" : "abgelegt"}</span>
+                </KontierungsZelle>
+                <KontierungsZelle label="Sachlich richtig" hinweis="Leistung erbracht, Angaben stimmen. Wer das bestätigt, steht im Protokoll.">
+                  <label className="inline-flex cursor-pointer items-center gap-2">
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 accent-[#15201b]"
+                      checked={Boolean(beleg.sachlichRichtigAm)}
+                      disabled={gebucht}
+                      onChange={(e) => aendere("sachlichRichtigAm", { sachlichRichtigAm: e.target.checked ? new Date().toISOString().slice(0, 10) : null })}
+                    />
+                    <span>{beleg.sachlichRichtigAm ? `bestätigt am ${datum(beleg.sachlichRichtigAm)}` : "noch nicht bestätigt"}</span>
+                  </label>
+                </KontierungsZelle>
+                <KontierungsZelle label="Rechnerisch richtig">
+                  {befunde.some((b) => b.code.startsWith("SUMME") || b.code.startsWith("UST_") || b.code === "VERSICHERUNGSTEUER_SATZ") ? <span className="text-stempel-2">Abweichung, siehe Befund</span> : "geprüft, stimmt"}
                 </KontierungsZelle>
                 <KontierungsZelle label="Gebucht">
                   {buchungen && buchungen.length ? (
