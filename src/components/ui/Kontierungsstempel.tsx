@@ -16,10 +16,12 @@ export function Kontierungsstempel({
   children: ReactNode;
   className?: string;
 }) {
+  // Feste Klassennamen, damit Tailwind sie beim Bauen findet.
   const cols = { 2: "grid-cols-2", 3: "grid-cols-3", 4: "grid-cols-4" }[spalten];
+  const volleBreite = { 2: "col-span-2", 3: "col-span-3", 4: "col-span-4" }[spalten];
   return (
     <div className={`kontierung ${cols} ${className}`}>
-      {titel ? <div className={`kontierung-titel col-span-${spalten}`}>{titel}</div> : null}
+      {titel ? <div className={`kontierung-titel ${volleBreite}`}>{titel}</div> : null}
       {children}
     </div>
   );
