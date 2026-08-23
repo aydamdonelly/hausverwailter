@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+/*
+  Gestaltung: ein Schreibtisch in einer deutschen Verwaltung. Recyclingpapier als Grund,
+  helle Blätter als Arbeitsflächen, grünschwarze Tinte, Stempelrot als einziger Akzent.
+  Keine Verläufe, keine Schatten, keine Pillen, keine Icons in Kacheln. Tiefe entsteht
+  durch Ton (Papier vs. Blatt) und eine selbstfarbene 1px-Kante.
+*/
+@theme {
+  --color-papier: #eeefe9;
+  --color-blatt: #fbfaf6;
+  --color-blatt-2: #f3f2ec;
+  --color-tinte: #15201b;
+  --color-tinte-2: #4b544f;
+  --color-tinte-3: #6b736e;
+  --color-linie: #d9dbd2;
+  --color-linie-2: #b9bdb2;
+  --color-stempel: #b23a2c;
+  --color-stempel-2: #8f2e22;
+  --color-gruen: #2f6b4f;
+  --color-ocker: #8a6a1e;
+  --font-display: var(--font-vollkorn), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-source), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius-formular: 2px;
+}
+
+html {
+  background: var(--color-papier);
+  color: var(--color-tinte);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--color-papier);
+  color: var(--color-tinte);
+  min-height: 100vh;
+}
+
+::selection {
+  background: #d9d3b8;
+  color: var(--color-tinte);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-tinte);
+  outline-offset: 2px;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.15;
+}
+
+/* Geldbeträge und Nummern: Tabellenziffern, damit Spalten stehen. */
+.zahl, td.zahl, th.zahl, input.zahl {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* Formularfelder */
+.feld {
+  width: 100%;
+  background: var(--color-blatt);
+  color: var(--color-tinte);
+  border: 1px solid var(--color-linie-2);
+  border-radius: var(--radius-formular);
+  padding: 0.45rem 0.6rem;
+  font: inherit;
+  line-height: 1.3;
+  transition: border-color 120ms ease;
+}
+.feld:hover { border-color: var(--color-tinte-3); }
+.feld:focus { border-color: var(--color-tinte); outline: none; }
+.feld:disabled { color: var(--color-tinte-3); background: var(--color-blatt-2); }
+.feld::placeholder { color: var(--color-tinte-3); }
+select.feld {
+  appearance: none;
+  padding-right: 2rem;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%2315201b' stroke-width='1.5'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+}
+textarea.feld { resize: vertical; min-height: 5rem; }
+
+/* Tabellen */
+table.tabelle { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+table.tabelle th {
+  text-align: left;
+  font-weight: 600;
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--color-tinte);
+  white-space: nowrap;
+  color: var(--color-tinte);
+}
+table.tabelle td {
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid var(--color-linie);
+  vertical-align: top;
+}
+table.tabelle tbody tr:hover { background: var(--color-blatt-2); }
+table.tabelle tr.klickbar { cursor: pointer; }
+table.tabelle tfoot td { border-bottom: none; border-top: 1px solid var(--color-tinte); font-weight: 600; }
+
+/* Blatt: eine helle Arbeitsfläche auf dem Papier */
+.blatt {
+  background: var(--color-blatt);
+  border: 1px solid color-mix(in srgb, var(--color-blatt) 60%, var(--color-linie-2));
+  border-radius: var(--radius-formular);
+}
+
+/* Stempel */
+.stempel {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  padding: 0.28em 0.5em 0.22em;
+  border: 2px solid currentColor;
+  border-radius: 3px;
+  transform: rotate(-2deg);
+  filter: url(#stempel-tinte);
+  opacity: 0.92;
+  white-space: nowrap;
+  mix-blend-mode: multiply;
+}
+.stempel-rot { color: var(--color-stempel); }
+.stempel-gruen { color: var(--color-gruen); }
+.stempel-tinte { color: var(--color-tinte-2); }
+.stempel-ocker { color: var(--color-ocker); }
+.stempel-klein { font-size: 0.6875rem; padding: 0.3em 0.45em 0.22em; border-width: 1.5px; letter-spacing: 0.1em; }
+.stempel-gross { font-size: 1.5rem; border-width: 3px; padding: 0.3em 0.55em 0.22em; }
+.stempel-neu { animation: stempel-aufschlag 220ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }
+@keyframes stempel-aufschlag {
+  from { transform: rotate(-7deg) scale(1.35); opacity: 0; }
+  60% { opacity: 1; }
+  to { transform: rotate(-2deg) scale(1); opacity: 0.92; }
+}
+
+/* Kontierungsstempel: das Raster, in das die erkannten Daten eingetragen werden */
+.kontierung {
+  display: grid;
+  gap: 1px;
+  background: var(--color-tinte);
+  border: 1.5px solid var(--color-tinte);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.kontierung > * { background: var(--color-blatt); min-width: 0; }
+.kontierung-zelle { padding: 0.5rem 0.65rem 0.55rem; }
+.kontierung-label {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-tinte-2);
+  margin-bottom: 0.2rem;
+}
+.kontierung-wert { font-size: 0.9375rem; }
+.kontierung-wert .feld { padding: 0.25rem 0.4rem; }
+.kontierung-titel {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.8125rem;
+  padding: 0.45rem 0.65rem;
+  background: var(--color-blatt-2);
+}
+
+/* Fortschritt beim Lesen eines Belegs: ein Balken mit stabilen Kanten, volle Bahn */
+.lesebalken { position: relative; height: 3px; background: var(--color-linie); border-radius: 2px; overflow: hidden; }
+.lesebalken::after {
+  content: ""; position: absolute; inset: 0; width: 40%; background: var(--color-tinte-2); border-radius: 2px;
+  animation: lesebalken-lauf 1.4s ease-in-out infinite;
+}
+@keyframes lesebalken-lauf {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(250%); }
+}
+
+/* Ablagekorb (Dropzone) */
+.ablage {
+  border: 1px dashed var(--color-linie-2);
+  border-radius: var(--radius-formular);
+  background: var(--color-blatt);
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+.ablage:hover, .ablage.aktiv { border-color: var(--color-tinte); background: var(--color-blatt-2); }
+
+/* Hinweise */
+.hinweis { display: grid; grid-template-columns: auto 1fr; gap: 0.5rem; align-items: baseline; font-size: 0.9375rem; }
+.hinweis-marke { width: 0.55rem; height: 0.55rem; border-radius: 1px; transform: translateY(-1px); }
+
+/* Druck (Browser-Druck als Notlösung, die PDFs kommen aus lib/pdf) */
+@media print {
+  nav, .kein-druck { display: none !important; }
+  body { background: white; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stempel-neu, .lesebalken::after { animation: none; }
+  * { transition-duration: 0ms !important; }
+}
