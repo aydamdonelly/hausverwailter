@@ -240,6 +240,7 @@ export const Lieferant = z.object({
 export type Lieferant = z.infer<typeof Lieferant>;
 
 export const Herkunft = z.enum(["ki", "regel", "manuell"]);
+export type Herkunft = z.infer<typeof Herkunft>;
 
 export const Beleg = z.object({
   id: z.string(),

@@ -33,6 +33,8 @@ export interface KiAufruf<T extends z.ZodTypeAny> {
   anhaenge?: Anhang[];
   schema: T;
   maxTokens?: number;
+  /** Anhänge im Prompt-Cache halten, wenn dasselbe Dokument gleich noch einmal gelesen wird (Klassifikation → Extraktion). */
+  anhaengeCachen?: boolean;
 }
 
 export interface KiErgebnis<T> {
@@ -66,7 +68,14 @@ export async function strukturiert<T extends z.ZodTypeAny>(aufruf: KiAufruf<T>):
   if (!kiVerfuegbar()) {
     throw new KiFehler("Kein ANTHROPIC_API_KEY gesetzt. Trage den Key in .env.local ein (siehe README).");
   }
-  const content: Block[] = [...(aufruf.anhaenge ?? []).map(anhangZuBlock), { type: "text", text: aufruf.auftrag }];
+  const bloecke = (aufruf.anhaenge ?? []).map(anhangZuBlock);
+  if (aufruf.anhaengeCachen && bloecke.length) {
+    const letzter = bloecke[bloecke.length - 1];
+    if (letzter.type === "document" || letzter.type === "image" || letzter.type === "text") {
+      (letzter as { cache_control?: { type: "ephemeral" } }).cache_control = { type: "ephemeral" };
+    }
+  }
+  const content: Block[] = [...bloecke, { type: "text", text: aufruf.auftrag }];
   try {
     const antwort = await kiClient().messages.parse({
       model: MODELL,
