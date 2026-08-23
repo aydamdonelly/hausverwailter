@@ -576,6 +576,10 @@ export const Einstellungen = z.object({
     erloeskonto: z.string().default("8400"),
     kreditorStart: z.number().int().default(70000),
     debitorStart: z.number().int().default(10000),
+    /** Vergebene Kreditorenkonten je Lieferant (normalisierter Name → Kontonummer), bleiben über Exporte stabil. */
+    kreditoren: z.record(z.string(), z.string()).default({}),
+    /** Vergebene Debitorenkonten je Kunde (Kundennummer → Kontonummer). */
+    debitoren: z.record(z.string(), z.string()).default({}),
   }).prefault({}),
   mahnwesen: z.object({
     fristTage: z.number().int().default(10),
