@@ -25,7 +25,19 @@ export function Zugang({ children }: { children: ReactNode }) {
   }
 
   useEffect(() => {
-    void laden();
+    let aktiv = true;
+    serverStatus()
+      .then((s) => {
+        if (!aktiv) return;
+        setStatus(s);
+        setFehler("");
+      })
+      .catch((e: unknown) => {
+        if (aktiv) setFehler(e instanceof Error ? e.message : "Server nicht erreichbar");
+      });
+    return () => {
+      aktiv = false;
+    };
   }, []);
 
   if (status && status.zugangNoetig && !status.zugangOk) {
