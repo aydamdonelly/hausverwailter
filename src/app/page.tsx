@@ -119,7 +119,7 @@ export default function Posteingang() {
         aktionen={
           <>
             {ungelesen.length > 0 ? (
-              <Button onClick={() => lesenLassen(ungelesen)} disabled={laufend !== null}>
+              <Button onClick={() => lesenLassen([...ungelesen].reverse())} disabled={laufend !== null} title="Älteste zuerst, damit ein später eingegangenes Duplikat als solches erkannt wird">
                 {laufend ? "Wird gelesen…" : ungelesen.length === 1 ? "1 Dokument lesen lassen" : `${ungelesen.length} Dokumente lesen lassen`}
               </Button>
             ) : null}
