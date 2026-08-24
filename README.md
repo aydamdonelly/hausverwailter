@@ -12,7 +12,7 @@ rechnet geprüfter Code. Nichts wird gebucht, bezahlt oder verschickt ohne Klick
 ## Schnellstart
 
 ```bash
-git clone <dieses Repo>
+git clone https://github.com/aydamdonelly/hausverwailter.git
 cd hausverwailter
 npm install
 cp .env.example .env.local     # ANTHROPIC_API_KEY eintragen
