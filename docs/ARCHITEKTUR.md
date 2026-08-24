@@ -65,11 +65,23 @@ für Menschen: `lib/format.ts` (1.234,56 €, 23.08.2026, IBAN in Vierergruppen)
 
 Verträge zwischen den Modulen:
 
-- PDF: `POST /api/pdf/angebot|rechnung|mahnung` mit `{ dokument, firma }` → `application/pdf`.
-  Im Browser: `pdfHerunterladen()` / `pdfVorschau()` aus `lib/client/pdf.ts`.
+- PDF: `POST /api/pdf/angebot|rechnung|mahnung` mit `{ dokument, firma }` → `application/pdf`
+  (inline). Fehler als JSON `{ fehler }`: 400 ungültige Daten, 401 Zugangscode, 404 unbekannte Art,
+  500 Rendering. Im Browser: `pdfHerunterladen()` / `pdfVorschau()` aus `lib/client/pdf.ts`
+  (protokollieren den Abruf, weil der Server zustandslos ist). Serverseitig direkt:
+  `pdfRendern()` aus `lib/pdf/rendern.tsx` (nur Node).
 - XRechnung: `xrechnungUbl(rechnung, firma)` aus `lib/xrechnung/ubl.ts` → XML-String.
 - Nummern: `naechsteNummer("angebot" | "rechnung" | "mahnung", datum)` aus `lib/store/nummern.ts`.
-- Protokoll: `protokolliere(akteur, aktion, bezug, details)` aus `lib/store/protokoll.ts`.
+- Protokoll: `protokolliere(akteur, aktion, bezug, details)` aus `lib/store/protokoll.ts`. Bezug-
+  Konvention (damit die Protokollseite verlinken kann): `beleg:<id>`, `dokument:<id>`, `objekt:<id>`,
+  `person:<id>`, `einheit:<id>`, `kostenart:<code>`, `leistung:<id>`, `anfrage:<id>`, `angebot:<id>`,
+  `rechnung:<id>`, `mahnung:<id>`, `bankkonto:<id>`, `bankumsatz:<id>`, `einstellungen`,
+  `arbeitsbereich`. Ziele: `/belege/<dokumentId>`, `/angebote?angebot=|?anfrage=`,
+  `/rechnungen?rechnung=|?mahnung=`, `/bank`, `/stammdaten?reiter=…`.
+- Buchungen aus der Bank: Umsätze mit Zuordnung erzeugen beim Buchen `Buchung.quelle = "bank"` mit
+  `bankumsatzId` (Gebühren mit `kostenartCode`); Zahlungen zu Belegen setzen nur
+  `Beleg.bezahltAm`/`bankumsatzId`, weil die Buchung des Belegs schon existiert. Der DATEV-Export
+  leitet Bank-Sachkonto, Kreditor/Debitor und Belegfeld aus Umsatz und Zuordnung ab.
 - KI: nur über `strukturiert()` / `freitext()` aus `lib/ki/client.ts`, nur serverseitig.
   Schemas für Structured Outputs: höchstens 16 nullable/union-Felder, keine tiefen Verschachtelungen
   (die API kompiliert eine Grammatik und lehnt zu große Schemas ab). Textfelder als `string`
@@ -82,7 +94,10 @@ Verträge zwischen den Modulen:
 3. Jede fachliche Aktion protokollieren. Jede Änderung eines KI-Feldes durch den Nutzer wird
    in `herkunft` als `manuell` markiert.
 4. Reine Fachlogik in `lib/*` ohne React und ohne `db`-Zugriff, damit sie testbar ist
-   (`*.test.ts`, Vitest). Datenbankzugriff in `lib/store/*` oder in Seiten/Komponenten.
+   (`*.test.ts`, Vitest). Datenbankzugriff in `lib/store/*` oder in Seiten/Komponenten. Bewusste
+   Ausnahmen, jeweils im Dateikopf erklärt: `lib/rechnungen/speichern.ts` und `ausgabe.ts`
+   (Nummer, Rechnung, Buchungen, Protokoll in einer Transaktion), `components/bank/aktionen.ts`,
+   `components/angebote/aktionen.ts`, `components/stammdaten/speicher.ts`.
 5. Oberfläche nur aus `components/ui` und den Regeln in `docs/DESIGN.md`. Keine neuen Farben,
    keine Icons aus Paketen, keine Attrappen.
 6. Vor Abgabe: `npm run typecheck`, `npm run lint`, `npm test` müssen grün sein.

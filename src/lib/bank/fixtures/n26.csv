@@ -1,0 +1,3 @@
+"Booking Date","Value Date","Partner Name","Partner Iban",Type,"Payment Reference","Account Name","Amount (EUR)","Original Amount","Original Currency","Exchange Rate"
+2026-07-01,2026-07-01,"Anna Schmidt",DE21100110012626667882,"Income","Miete Juli Whg 1",Hauptkonto,900.00,,,
+2026-07-04,2026-07-04,"LOGPAY FINANCIAL SERVICES GMBH",DE75500400000XXXXXX100,"Direct Debit","LogPay OnlineTicket",Hauptkonto,-16.80,,,

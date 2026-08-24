@@ -1,11 +1,5 @@
-import { Seitenkopf } from "@/components/ui/Seitenkopf";
-import { Leer } from "@/components/ui/Leer";
+import { ProtokollAnsicht } from "@/components/protokoll/ProtokollAnsicht";
 
 export default function Seite() {
-  return (
-    <>
-      <Seitenkopf titel="Protokoll" text="Wer hat wann was gemacht: Nutzer, KI, Regeln." />
-      <Leer titel="Noch im Bau">Diese Seite wird gerade gebaut.</Leer>
-    </>
-  );
+  return <ProtokollAnsicht />;
 }

@@ -1,0 +1,17 @@
+Umsatzanzeige;Datei erstellt am: 09.08.2026 15:23
+
+IBAN;DE41500105170123456789
+Kontoname;Girokonto
+Bank;ING
+Kunde;Erika Vogel
+Zeitraum;01.07.2026 - 31.07.2026
+
+Sortierung;Datum absteigend
+
+In der CSV-Datei finden Sie alle bereits gebuchten Umsätze. Die vorgemerkten Umsätze werden nicht aufgenommen, auch wenn sie in Ihrem Internetbanking angezeigt werden.
+
+Buchung;Wertstellungsdatum;Auftraggeber/Empfänger;Buchungstext;Verwendungszweck;Betrag;Währung
+31.07.2026;31.07.2026;Lukas Hoffmann;Dauerauftrag / Terminueberweisung;Miete August Hoffmann Whg 5;1.170,00;EUR
+03.07.2026;03.07.2026;Rente;9705218115 RV-RENTE 07.2026;2.647,74;EUR
+01.07.2026;01.07.2026;Karl Fischer;Gutschrift;Miete Juli Whg 8;770,00;EUR
+30.06.2026;30.06.2026;ING;Entgelt;Kontoführungsentgelt Juni;-4,90;EUR

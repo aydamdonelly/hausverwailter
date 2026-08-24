@@ -1,0 +1,12 @@
+﻿Umsätze
+Konto;Filial-/Kontonummer;IBAN;Währung
+Mietkonto;123 1234567 00;DE41500105170123456789;EUR
+
+1.7.2026 - 31.7.2026
+Letzter Kontostand;;;;2.500,00;EUR
+Vorgemerkte und noch nicht gebuchte Umsätze sind nicht Bestandteil dieser Übersicht.
+Buchungstag;Wert;Umsatzart;Begünstigter / Auftraggeber;Verwendungszweck;IBAN / Kontonummer;BIC;Kundenreferenz;Mandatsreferenz;Gläubiger ID;Fremde Gebühren;Betrag;Abweichender Empfänger;Anzahl der Aufträge;Anzahl der Schecks;Soll;Haben;Währung
+1.7.2026;1.7.2026;SEPA Überweisung (Dauerauftrag);Petra Lang;Miete Juli;DE36700202700012345678;;NOTPROVIDED;;;;860;;;;;860;EUR
+6.7.2026;6.7.2026;SEPA Lastschrift;Bank AG;Baufinanzierung 123 1234567 21, Leistungen zum 30.06.2026;DE89370400440532013000;;12345678901234;CMLP12345678901;DE12CML12345678901;;-1.000,00;;;;-1.000,00;;EUR
+15.7.2026;15.7.2026;SEPA Lastschrift;;GEZ 05.2026 - 07.2026 Beitragsnr. 123456789;DE89370400440532013000;;123456789;1234567891301;DE3000112345678901;;-55,00;Westdeutscher Rundfunk Koeln;;;-55,00;;EUR
+Kontostand;31.7.2026;;;2.305,00;EUR

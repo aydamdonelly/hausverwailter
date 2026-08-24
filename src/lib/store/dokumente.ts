@@ -12,12 +12,18 @@ import { Beleg, Buchung, Dokument, type Anfrage, type DokumentTyp } from "../dom
 import { jetztIso } from "../format";
 import { ladeEinstellungen } from "./arbeitsbereich";
 import { summe } from "../geld";
+import { istCamt } from "../bank/camt053";
 
 export type ErkennungsAntwort = Omit<ErkennungsErgebnis, never>;
 
-function typAusDatei(datei: File): DokumentTyp | null {
+async function typAusDatei(datei: File): Promise<DokumentTyp | null> {
   const n = datei.name.toLowerCase();
-  if (n.endsWith(".csv") || n.endsWith(".camt") || n.endsWith(".xml") || n.endsWith(".sta") || n.endsWith(".mt940") || n.endsWith(".txt") && /kontoauszug|umsaetze|umsätze/.test(n)) return "kontoauszug";
+  if (n.endsWith(".csv") || n.endsWith(".camt") || n.endsWith(".sta") || n.endsWith(".mt940") || (n.endsWith(".txt") && /kontoauszug|umsaetze|umsätze/.test(n))) return "kontoauszug";
+  if (n.endsWith(".xml")) {
+    // Kontoauszug (CAMT.053) oder E-Rechnung (XRechnung)? Nur CAMT geht zum Bankimport.
+    const anfang = await datei.slice(0, 4000).text();
+    return istCamt(anfang) ? "kontoauszug" : null;
+  }
   return null;
 }
 
@@ -34,7 +40,7 @@ export async function dokumentAblegen(datei: File, quelle: Dokument["quelle"] = 
     hash,
     hochgeladenAm: jetztIso(),
     quelle,
-    typ: typAusDatei(datei),
+    typ: await typAusDatei(datei),
     status: "neu",
   });
   await db.transaction("rw", db.dokumente, db.dateien, async () => {

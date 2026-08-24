@@ -34,7 +34,7 @@ export function normalisiereNummer(nr: string): string {
   return nr.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
-const SCHADEN = /sturm|wasserschaden|rohrbruch|brand|einbruch|vandalismus|hagel|blitz|leckage|notdienst|schaden/i;
+const SCHADEN = /\b(sturm(schaden|schäden)?|wasserschaden|wasserschäden|rohrbruch|brandschaden|brandschäden|einbruch|vandalismus|hagel(schaden)?|blitzschlag|leckage|notdienst|schadensfall|unwetter)\b/i;
 const REPARATUR = /reparatur|instandsetz|austausch|erneuer|ersatz|defekt|störung|stoerung/i;
 
 export function pruefeBeleg(b: Beleg, k: PruefKontext): Befund[] {
@@ -184,7 +184,7 @@ export function pruefeBeleg(b: Beleg, k: PruefKontext): Befund[] {
   if (b.faelligAm && b.rechnungsdatum && b.faelligAm < b.rechnungsdatum) {
     f.push({ stufe: "warnung", code: "FAELLIG_VOR_DATUM", text: "Fälligkeit liegt vor dem Rechnungsdatum.", feld: "faelligAm" });
   }
-  if (b.faelligAm && b.faelligAm < k.heute && !b.bezahltAm) {
+  if (b.faelligAm && b.faelligAm < k.heute && !b.bezahltAm && b.zahlungsart !== "bereits_bezahlt" && b.zahlungsart !== "lastschrift") {
     f.push({ stufe: "warnung", code: "UEBERFAELLIG", text: `Fällig seit ${b.faelligAm}, noch nicht als bezahlt erfasst.`, feld: "faelligAm" });
   }
   if (b.zahlungsart === "bereits_bezahlt") {

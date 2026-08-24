@@ -1,0 +1,21 @@
+"Volksbank Musterstadt eG"
+
+"Umsatzanzeige"
+
+"BLZ:";"63091010";;"Datum:";"31.07.2026"
+"Konto:";"1008800049";;"Uhrzeit:";"11:23:33"
+"Abfrage von:";"Hausverwaltung Mustermann";;"Kontoinhaber:";"WEG Severinstraﬂe 88"
+
+"Zeitraum:";;"von:";"01.07.2026";"bis:";"31.07.2026"
+"Betrag in EUR:";;"von:";" ";"bis:";" "
+"Sortiert nach:";"Buchungstag";"absteigend"
+
+"Buchungstag";"Valuta";"Auftraggeber/Zahlungsempf‰nger";"Empf‰nger/Zahlungspflichtiger";"Konto-Nr.";"IBAN";"BLZ";"BIC";"Vorgang/Verwendungszweck";"Kundenreferenz";"W‰hrung";"Umsatz";" "
+"03.07.2026";"03.07.2026";"WEG Severinstraﬂe 88";"Ingrid Sauer";;"DE02500105170137075030";;"INGDDEFFXXX";"UEBERWEISUNGSGUTSCHR
+Hausgeld Juli 2026 Wohnung 5
+ Sauer IBAN: DE025001051701370
+75030 BIC: INGDDEFFXXX";;"EUR";"280,00";"H"
+"02.07.2026";"02.07.2026";"WEG Severinstraﬂe 88";"Stadtwerke Kˆln";;"DE89370400440532013000";;"COLSDE33XXX";"Basislastschrift
+Abschlag Allgemeinstrom 07/20
+26 Kd 4711";;"EUR";"1.202,10";"S"
+"";"";"";"";;"";;"";"";"Anfangssaldo";"EUR";"12.000,00";"H"

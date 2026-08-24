@@ -1,11 +1,10 @@
-import { Seitenkopf } from "@/components/ui/Seitenkopf";
-import { Leer } from "@/components/ui/Leer";
+import { Suspense } from "react";
+import { AngeboteSeite } from "@/components/angebote/AngeboteSeite";
 
 export default function Seite() {
   return (
-    <>
-      <Seitenkopf titel="Angebote" text="Aus einer Anfrage wird ein fertiges Angebot mit Anschreiben." />
-      <Leer titel="Noch im Bau">Diese Seite wird gerade gebaut.</Leer>
-    </>
+    <Suspense fallback={null}>
+      <AngeboteSeite />
+    </Suspense>
   );
 }

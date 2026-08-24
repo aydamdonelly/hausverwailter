@@ -1,0 +1,8 @@
+;
+"Umsätze Girokonto";"Zeitraum: 01.07.2026 - 31.07.2026";
+"Neuer Kontostand";"16,94 EUR";
+
+"Buchungstag";"Wertstellung (Valuta)";"Vorgang";"Buchungstext";"Umsatz in EUR";
+"offen";"--";"Kartenverfügung";"Kto/IBAN: 1234567890  Buchungstext: Baumarkt 2026-07-31T17:43:43";"-23,86";
+"02.07.2026";"02.07.2026";"Übertrag / Überweisung";"Auftraggeber: Elif Demir Buchungstext: Miete Juli Whg 7 Ref. A1234567891/0";"875,00";
+"03.07.2026";"05.07.2026";"Übertrag / Überweisung";"Empfänger: Müller Sanitär GmbHKto/IBAN: DE89370400440532013000 BLZ/BIC: COBADEFFXXX  Buchungstext: RE 2026-0815 Ref. DE987654321/1";"-1.238,00";

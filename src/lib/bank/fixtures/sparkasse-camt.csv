@@ -1,0 +1,7 @@
+"Auftragskonto";"Buchungstag";"Valutadatum";"Buchungstext";"Verwendungszweck";"Glaeubiger ID";"Mandatsreferenz";"Kundenreferenz (End-to-End)";"Sammlerreferenz";"Lastschrift Ursprungsbetrag";"Auslagenersatz Ruecklastschrift";"Beguenstigter/Zahlungspflichtiger";"Kontonummer/IBAN";"BIC (SWIFT-Code)";"Betrag";"Waehrung";"Info"
+"DE41500105170123456789";"01.07.26";"01.07.26";"GUTSCHRIFT UEBERWEISUNG";"Miete Juli 2026 Whg 1";"";"";"NOTPROVIDED";"";"";"";"Anna Schmidt";"DE21100110012626667882";"DEUTDEDBBER";"900,00";"EUR";"Umsatz gebucht"
+"DE41500105170123456789";"02.07.26";"02.07.26";"DAUERAUFTRAG";"Miete 07/2026";"";"";"";"";"";"";"Mehmet Yilmaz";"DE11520513735120710131";"HELADEF1KAS";"1010,00";"EUR";"Umsatz gebucht"
+"DE41500105170123456789";"03.07.26";"03.07.26";"GUTSCHRIFT UEBERWEISUNG";"Miete Whg 3 Weber";"";"";"";"";"";"";"Sabine Müller";"DE02500105170137075030";"INGDDEFFXXX";"810,00";"EUR";"Umsatz gebucht"
+"DE41500105170123456789";"06.07.26";"06.07.26";"FOLGELASTSCHRIFT";"RE 2026-0815 Wartung Heizung";"DE94ZZZ00000000001";"M-0815";"EREF-0815";"";"";"";"Müller Sanitär GmbH";"DE89370400440532013000";"COBADEFFXXX";"-1.238,00";"EUR";"Umsatz gebucht"
+"DE41500105170123456789";"30.06.26";"30.06.26";"ENTGELTABSCHLUSS";"Entgeltabrechnung siehe Anlage";"";"";"";"";"";"";"";"";"";"-5,95";"EUR";"Umsatz gebucht"
+"DE41500105170123456789";"31.07.26";"03.08.26";"FOLGELASTSCHRIFT";"Strom Allgemein 08/2026";"DE98ZZZ09999999999";"M-STROM";"";"";"";"";"RheinEnergie AG";"DE12370501980000000001";"COLSDE33XXX";"-120,00";"EUR";"Umsatz vorgemerkt"

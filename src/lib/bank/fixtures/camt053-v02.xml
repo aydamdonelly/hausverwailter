@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02">
+  <BkToCstmrStmt>
+    <GrpHdr><MsgId>ALT-1</MsgId><CreDtTm>2026-08-01T06:00:00</CreDtTm></GrpHdr>
+    <Stmt>
+      <Id>0002</Id>
+      <Acct><Id><IBAN>DE27100777770209299700</IBAN></Id><Ccy>EUR</Ccy></Acct>
+      <Ntry>
+        <Amt Ccy="EUR">310.00</Amt><CdtDbtInd>CRDT</CdtDbtInd><Sts>BOOK</Sts>
+        <BookgDt><Dt>2026-07-01</Dt></BookgDt><ValDt><Dt>2026-07-01</Dt></ValDt>
+        <BkTxCd><Prtry><Cd>NTRF+166</Cd><Issr>ZKA</Issr></Prtry></BkTxCd>
+        <NtryDtls><TxDtls>
+          <Refs><EndToEndId>NOTPROVIDED</EndToEndId></Refs>
+          <RltdPties><Dbtr><Nm>Dr. Stefan Berger</Nm></Dbtr><DbtrAcct><Id><IBAN>DE44500105175407324931</IBAN></Id></DbtrAcct></RltdPties>
+          <RltdAgts><DbtrAgt><FinInstnId><BIC>INGDDEFFXXX</BIC></FinInstnId></DbtrAgt></RltdAgts>
+          <RmtInf><Ustrd>Hausgeld Juli 2026</Ustrd></RmtInf>
+        </TxDtls></NtryDtls>
+      </Ntry>
+    </Stmt>
+  </BkToCstmrStmt>
+</Document>

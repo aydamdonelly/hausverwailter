@@ -1,0 +1,17 @@
+Umsatzanzeige;Datei erstellt am: 03.08.2026 08:12
+
+IBAN;DE27100777770209299700
+Kontoname;Girokonto
+Bank;ING
+Kunde;WEG Severinstraße 88
+Zeitraum;01.07.2026 - 31.07.2026
+Saldo;12.456,80;EUR
+
+Sortierung;Datum absteigend
+
+In der CSV-Datei finden Sie alle bereits gebuchten Umsätze. Die vorgemerkten Umsätze werden nicht aufgenommen, auch wenn sie in Ihrem Internetbanking angezeigt werden.
+
+Buchung;Wertstellungsdatum;Auftraggeber/Empfänger;Buchungstext;Verwendungszweck;Betrag;Währung
+03.07.2026;03.07.2026;Ingrid Sauer;Gutschrift;Hausgeld Juli;280,00;EUR
+01.07.2026;01.07.2026;Rheinische Gebäudeversicherung AG;Überweisung;Beitrag 2026/27 VS-Nr. GB 88-4471-19;-1.940,00;EUR
+01.07.2026;01.07.2026;Dr. Stefan Berger;Gutschrift;Hausgeld 07/2026 WE 3 Severinstr. 88;310,00;EUR

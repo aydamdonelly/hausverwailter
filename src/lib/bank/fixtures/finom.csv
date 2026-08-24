@@ -1,0 +1,3 @@
+Buchungsdatum,Time completed,Status,Transaktionsart,Auftraggeber/Empfänger,Counterparty BIC,Counterparty IBAN,Verwendungszweck,Tags,Zahlungsfreigeber,Kartennummer,Ursprungswährung,Ursprungsbetrag,Zahlungswährung,Zahlungsbetrag,Wallet-Saldo nach Transaktion,Wallet-Name,Wallet-IBAN,Begleitende Dokumente,Transaktions-ID
+05.08.2026,09:57,Completed,Card,SumUp  *Haendler GmbH,,,N/A,SHOPPING,QUJDREVG,***1234,EUR,-60.00,EUR,-60.00,180.00,Main,DE02120300000000202051,Rechnung Nr. RE-000001,11111111-1111-1111-1111-111111111111
+03.08.2026,16:54,Completed,Transfer,WEG Severinstraße 88,GENODEF1XXX,DE27100777770209299700,R-2026-0131 Verwalterhonorar,N/A,,,EUR,1000.00,EUR,1000.00,240.00,Main,DE02120300000000202051,N/A,22222222-2222-2222-2222-222222222222

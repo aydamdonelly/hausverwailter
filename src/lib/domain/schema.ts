@@ -47,7 +47,7 @@ export const Firma = z.object({
   bic: z.string().default(""),
   bankname: z.string().default(""),
   glaeubigerId: z.string().default(""),
-  /** Logo als data:-URL (PNG/SVG/JPG), optional. */
+  /** Logo als data:-URL, optional. PNG oder JPG; SVG zeigt der PDF-Renderer nicht (dann erscheint die Wortmarke). */
   logoDataUrl: z.string().nullable().default(null),
   /** Akzentfarbe des Briefkopfs (Hex). */
   farbe: z.string().default("#15201b"),
@@ -69,6 +69,8 @@ export const Auftraggeber = z.object({
   kundennummer: z.string().default(""),
   /** Leitweg-ID, nur für Rechnungen an öffentliche Auftraggeber (XRechnung B2G). */
   leitwegId: z.string().default(""),
+  /** SEPA-Mandatsreferenz, wenn das Honorar per Lastschrift eingezogen wird. */
+  mandatsreferenz: z.string().default(""),
 });
 export type Auftraggeber = z.infer<typeof Auftraggeber>;
 
@@ -87,6 +89,8 @@ export const Objekt = z.object({
   verwaltungSeit: Datum.nullable().default(null),
   /** IBAN des Objektkontos (Mietkonto/Gemeinschaftskonto), hilft beim Bankimport. */
   bankIban: z.string().default(""),
+  /** Nur Dienstleister: welche Katalogleistungen (Codes) für dieses Objekt monatlich berechnet werden. Leer = alle monatlichen Grundleistungen. */
+  leistungCodes: z.array(z.string()).default([]),
   aktiv: z.boolean().default(true),
   notizen: z.string().default(""),
 });
@@ -297,7 +301,7 @@ export const Buchung = z.object({
   umlagefaehig: z.boolean().nullable().default(null),
   konto: z.string().default(""),
   gegenkonto: z.string().default(""),
-  buStuessel: z.string().default(""),
+  buSchluessel: z.string().default(""),
   belegnummer: z.string().default(""),
   buchungstext: z.string(),
   netto: Geld,
@@ -319,7 +323,10 @@ export const Bankkonto = z.object({
   bankname: z.string().default(""),
   /** null = Konto der Verwaltung selbst. */
   objektId: z.string().nullable().default(null),
-  /** Erkanntes Importformat, z. B. "sparkasse-camt-csv". */
+  /**
+   * Erkanntes Importformat: entweder eine Formatkennung (z. B. "sparkasse-camt-csv") oder das JSON
+   * eines gemerkten Spaltenprofils ({ id: "ki" | "generisch", name, profil }) für Formate ohne festes Profil.
+   */
   format: z.string().default(""),
 });
 export type Bankkonto = z.infer<typeof Bankkonto>;

@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "beispiel": "tsx scripts/beispieldaten.ts"
+    "beispiel": "node scripts/beispieldaten.mjs",
+    "beispiel:pruefen": "tsx scripts/beispiel-pruefen.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.120.0",

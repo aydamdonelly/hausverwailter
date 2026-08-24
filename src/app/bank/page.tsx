@@ -1,11 +1,11 @@
-import { Seitenkopf } from "@/components/ui/Seitenkopf";
-import { Leer } from "@/components/ui/Leer";
+import { Suspense } from "react";
+import { BankSeite } from "@/components/bank/BankSeite";
 
+/** Bank: Kontoauszüge importieren, Umsätze zuordnen, Mieteingang prüfen, Zahlungserinnerungen vorschlagen. */
 export default function Seite() {
   return (
-    <>
-      <Seitenkopf titel="Bank" text="Kontoauszüge importieren, Zahlungen zuordnen, Mieteingang prüfen." />
-      <Leer titel="Noch im Bau">Diese Seite wird gerade gebaut.</Leer>
-    </>
+    <Suspense fallback={null}>
+      <BankSeite />
+    </Suspense>
   );
 }
