@@ -45,6 +45,25 @@ export default function Posteingang() {
   const belegProDokument = useMemo(() => new Map((belege ?? []).map((b) => [b.dokumentId, b])), [belege]);
   const objektName = useMemo(() => new Map((objekte ?? []).map((o) => [o.id, o.kurzname])), [objekte]);
 
+  /** Liest eine Liste von Dokumenten, zwei gleichzeitig (mehr belastet den API-Rate-Limit ohne Gewinn). */
+  async function lesenLassen(zuLesen: Dokument[]) {
+    const liste = zuLesen.filter((d) => d.typ !== "kontoauszug");
+    if (!liste.length) return;
+    setLaufend({ fertig: 0, gesamt: liste.length });
+    let fertig = 0;
+    const arbeiter = [0, 1].map(async (i) => {
+      for (let k = i; k < liste.length; k += 2) {
+        const d = await dokumentLesen(liste[k].id);
+        fertig++;
+        setLaufend({ fertig, gesamt: liste.length });
+        setNeuGestempelt((s) => new Set(s).add(d.id));
+      }
+    });
+    warteschlange.current = warteschlange.current.then(() => Promise.all(arbeiter).then(() => undefined));
+    await warteschlange.current;
+    setLaufend(null);
+  }
+
   async function aufnehmen(dateien: File[]) {
     setMeldung(null);
     const vorbereitet: File[] = [];
@@ -63,22 +82,7 @@ export default function Posteingang() {
       else neue.push(dokument);
     }
     if (doppelt) setMeldung({ ton: "warnung", text: `${doppelt} Datei(en) waren schon da (gleicher Inhalt) und wurden nicht erneut abgelegt.` });
-    const zuLesen = neue.filter((d) => d.typ !== "kontoauszug");
-    if (!zuLesen.length) return;
-    setLaufend({ fertig: 0, gesamt: zuLesen.length });
-    let fertig = 0;
-    // Zwei Dokumente gleichzeitig lesen, mehr belastet den API-Rate-Limit ohne Gewinn.
-    const arbeiter = [0, 1].map(async (i) => {
-      for (let k = i; k < zuLesen.length; k += 2) {
-        const d = await dokumentLesen(zuLesen[k].id);
-        fertig++;
-        setLaufend({ fertig, gesamt: zuLesen.length });
-        setNeuGestempelt((s) => new Set(s).add(d.id));
-      }
-    });
-    warteschlange.current = warteschlange.current.then(() => Promise.all(arbeiter).then(() => undefined));
-    await warteschlange.current;
-    setLaufend(null);
+    await lesenLassen(neue);
   }
 
   async function alleBuchen() {
@@ -99,6 +103,7 @@ export default function Posteingang() {
     abgelehnt: (dokumente ?? []).filter((d) => d.status === "abgelehnt").length,
   };
   const unauffaellig = (dokumente ?? []).filter((d) => d.status === "erkannt" && d.belegId).length;
+  const ungelesen = (dokumente ?? []).filter((d) => d.status === "neu" && d.typ !== "kontoauszug");
 
   function ziel(d: Dokument): string {
     if (d.typ === "anfrage" && d.anfrageId) return `/angebote?anfrage=${d.anfrageId}`;
@@ -112,11 +117,18 @@ export default function Posteingang() {
         titel="Posteingang"
         text="Belege, Fotos, Mails und Kontoauszüge hier ablegen. Die App liest sie, prüft sie und schlägt die Buchung vor. Gebucht wird erst, wenn Sie es sagen."
         aktionen={
-          unauffaellig > 0 ? (
-            <Button variante="sekundaer" onClick={alleBuchen}>
-              {unauffaellig === 1 ? "1 Beleg ohne Befund buchen" : `${unauffaellig} Belege ohne Befund buchen`}
-            </Button>
-          ) : null
+          <>
+            {ungelesen.length > 0 ? (
+              <Button onClick={() => lesenLassen(ungelesen)} disabled={laufend !== null}>
+                {laufend ? "Wird gelesen…" : ungelesen.length === 1 ? "1 Dokument lesen lassen" : `${ungelesen.length} Dokumente lesen lassen`}
+              </Button>
+            ) : null}
+            {unauffaellig > 0 ? (
+              <Button variante="sekundaer" onClick={alleBuchen}>
+                {unauffaellig === 1 ? "1 Beleg ohne Befund buchen" : `${unauffaellig} Belege ohne Befund buchen`}
+              </Button>
+            ) : null}
+          </>
         }
       />
 
