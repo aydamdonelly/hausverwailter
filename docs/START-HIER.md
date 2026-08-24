@@ -60,9 +60,12 @@ Deshalb ist die App auf beiden Achsen offen:
 3. **Bau in Modulen** mit klaren Verträgen (`docs/ARCHITEKTUR.md`), parallel von mehreren
    KI-Agenten in Claude Code, jedes Modul mit Tests. Werkzeug: Claude Code mit Claude Fable 5;
    in der App läuft Claude Sonnet 5.
-4. **Prüfung.** Typecheck, Lint, Tests, Screenshots jeder Seite, Gegenlesen der Fachlogik
-   (Steuer, DATEV, XRechnung, Bankabgleich) durch unabhängige Prüfer, Klick-Test jeder
-   Steuerung im Browser.
+4. **Prüfung.** Typecheck, Lint, 297 Tests, Production-Build, Screenshots jeder Seite und ein
+   Klick-Test der Hauptabläufe im Browser mit dem Beispielbetrieb: 13 Dokumente lesen (alle
+   Fallen erkannt), Kontoauszug importieren und zuordnen, Mieteingang, Zahlungserinnerung als
+   PDF, Angebot aus Anfrage mit Anschreiben und PDF, Honorarlauf mit PDF und XRechnung,
+   DATEV-, Excel- und CSV-Export. Was nicht geprüft wurde: schmale Bildschirme (Handy),
+   iOS Safari, Dienstleister-Modus im Browser, fremde Bankformate mit echten Dateien.
 
 ## So arbeitest du weiter (mit Claude Code)
 
